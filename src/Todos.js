@@ -40,9 +40,9 @@ export default function Todos() {
                   else if (item.title.toLowerCase().includes(searchTodo.toLowerCase())) {
                     return item;
                   }
-                }).slice(0, 5).map(item => (
+                }).map((item,index )=> (
                   <>
-                    <tr>
+                    <tr key={index}>
                       <td>{item.id}</td>
                       <td>{item.title}</td>
                       <td>{item.completed ? <p>Completed</p>:<p>Not Completed</p>}</td>

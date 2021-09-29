@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams,NavLink } from 'react-router-dom';
 export default function Todo() {
-  const { id } = useParams();
+  const { id} = useParams();
   const [todoDetails, setTodoDetails] = useState({});
   const [todoDetails1, setTodoDetails1] = useState({});
   useEffect(() => {
     axios.get(`https://jsonplaceholder.typicode.com/todos/${id}`).then(res => {
       setTodoDetails(res.data);
+      axios.get(`https://jsonplaceholder.typicode.com/users/${res.data.userId}`).then(res => {
+        setTodoDetails1(res.data);
+      });
     });
   }, []);
-  const { id: todoID, userId, title, } = todoDetails;
-  useEffect(() => {
-    axios.get(`https://jsonplaceholder.typicode.com/users/${id}`).then(res => {
-      setTodoDetails1(res.data);
-    });
-  }, []);
-  const { name, email } = todoDetails1;
+  const {  userId:userID, title, } = todoDetails;
+  const { id:ID,name, email } = todoDetails1;
+  
   return (
     <div>
       <h1 className="user-details">User Details</h1>
@@ -24,7 +23,7 @@ export default function Todo() {
         <div className="todo-container">
           <div className="todo-item">
             <p>ToDo Id</p>
-            <p>{`${todoID}`}</p>
+            <p>{`${id}`}</p>
           </div>
           <div className="todo-item">
             <p>ToDo Tile</p>
@@ -32,7 +31,7 @@ export default function Todo() {
           </div>
           <div className="todo-item">
             <p>User Id</p>
-            <p>{`${userId}`}</p>
+            <p>{`${userID}`}</p>
           </div>
           <div className="todo-item">
             <p>Name</p>
